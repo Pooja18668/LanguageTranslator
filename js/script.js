@@ -1,6 +1,9 @@
 const fromText = document.querySelector(".from-text"),
+toText = document.querySelector(".to-text"),
 selectTag = document.querySelectorAll("select"),
-translateBtn = document.querySelector("button");
+exchangeIcon = document.querySelector(".exchange"),
+translateBtn = document.querySelector("button"),
+icons = document.querySelectorAll(".raw i");
 
 selectTag.forEach((tag, id) => {
     // console.log(tag);
@@ -20,6 +23,16 @@ selectTag.forEach((tag, id) => {
     }
 });
 
+exchangeIcon.addEventListener("click", () => {
+    //exchanging textarea and select tag values
+    let tempText = fromText.value;
+    tempLang = selectTag[0].value;
+    fromText.value = toText.value;
+    selectTag[0].value =selectTag[1].value;
+    toText.value = tempText;
+    selectTag[1].value = tempLang;
+});
+
 translateBtn.addEventListener("click", () => {
     let text = fromText.value,
     translateFrom = selectTag[0].value,   //getting fromselect tag value
@@ -30,7 +43,15 @@ translateBtn.addEventListener("click", () => {
    //fetching api response and returning it with parsing into js obj 
     //and in another then method receiving that obj
     fetch(apiUrl).then(res => res.json()).then(data => {
-        console.log(data);
+        // console.log(data);
+        toText.value = data.responseData.translatedText;
 
     });
-});
+
+});    
+
+icons.forEach(icon => {
+    icon.addEventListener("click", ({target}) => {
+        console.log(target)
+    });
+})
