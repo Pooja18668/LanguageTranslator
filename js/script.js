@@ -38,6 +38,9 @@ translateBtn.addEventListener("click", () => {
     translateFrom = selectTag[0].value,   //getting fromselect tag value
     translateTo = selectTag[1].value;     //getting toselect tag value
 
+     if(!text) return;
+     toText.setAttribute("placeholder", "Translating...")
+
     // console.log(text, translateFrom, translateTo);
     let apiUrl = `https://api.mymemory.translated.net/get?q=${text}&langpair=${translateFrom}|${translateTo}`;
    //fetching api response and returning it with parsing into js obj 
@@ -45,6 +48,7 @@ translateBtn.addEventListener("click", () => {
     fetch(apiUrl).then(res => res.json()).then(data => {
         // console.log(data);
         toText.value = data.responseData.translatedText;
+        toText.setAttribute("placeholder", "Translating...")
 
     });
 
@@ -65,7 +69,19 @@ icons.forEach(icon => {
             }
         }
         else{
-            console.log("Speech icon clicked")
+            let utterance;
+            // if clicked icon has from id, speak the fromTextarea value else speak the toTextarea value
+            if(target.id == "from") {
+                utterance = new SpeechSynthesisUtterance(fromText.value);
+                utterance.lang = selectTag[0].value;  //setting utterance language to fromselect tag value
+            }
+            else{
+                utterance = new SpeechSynthesisUtterance(toText.value);
+                utterance.lang = selectTag[1].value;   //setting utterance language to toselect tag value
+            }
+            speechSynthesis.speak(utterance);
+
+            // console.log("Speech icon clicked")
         }
     });
 })
