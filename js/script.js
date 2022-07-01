@@ -52,6 +52,20 @@ translateBtn.addEventListener("click", () => {
 
 icons.forEach(icon => {
     icon.addEventListener("click", ({target}) => {
-        console.log(target)
+        // console.log(target)
+        if(target.classList.contains("fa-copy")) {
+            if(target.id == "from") {
+                // console.log("From copy icon clicked")
+                navigator.clipboard.writeText(fromText.value);
+
+            }
+            else{
+                // console.log("To copy icon clicked")
+                navigator.clipboard.writeText(toText.value);
+            }
+        }
+        else{
+            console.log("Speech icon clicked")
+        }
     });
 })
